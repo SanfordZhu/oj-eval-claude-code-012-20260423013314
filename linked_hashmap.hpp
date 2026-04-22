@@ -27,9 +27,11 @@ template<
     class Hash = std::hash<Key>,
     class Equal = std::equal_to<Key>
 > class linked_hashmap {
+public:
+    typedef pair<const Key, T> value_type;
 private:
     struct Node {
-        typename linked_hashmap::value_type kv;
+        value_type kv;
         Node *prev, *next;      // list order
         Node *bucket_next;      // bucket chain
         Node(const Key &k, const T &v) : kv(k, v), prev(nullptr), next(nullptr), bucket_next(nullptr) {}
@@ -39,7 +41,6 @@ private:
     Node **buckets = nullptr;
     size_t bucket_count = 0;
     size_t sz = 0;
-    // list endpoints (actual nodes, nullptr if empty)
     Node *first = nullptr;
     Node *last = nullptr;
 
@@ -129,7 +130,6 @@ private:
     }
 
 public:
-    typedef pair<const Key, T> value_type;
 
     class const_iterator;
     class iterator {
